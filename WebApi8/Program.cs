@@ -30,8 +30,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     // a configuração da conexão, utilizando GetConnectionString vou direto para
     // o campo "ConnectionStrings" e pego a "DefaultConnection" em appsettings.json
 
-    // Quando rodamos o comando 'add-migration CreatingDataBase'
-    // (CreatingDataBase é o nome que escolhi para a primeira migração)
+    // Quando rodamos o comando ''
+    // CreatingDataBase é o nome que escolhi para a primeira 'add-migration CreatingDataBasemigração'
     // Ele até \AppDbContext.cs e pega as tabelas que nós setamos e as constroi automaticamente
 
     // Note que o comando para criar a migration vai mostrar um arquivo com o que será criado
