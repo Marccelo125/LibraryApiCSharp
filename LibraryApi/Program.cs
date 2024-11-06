@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using LibraryApi.Data;
 using LibraryApi.Services.Author;
 using LibraryApi.Services.Book;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

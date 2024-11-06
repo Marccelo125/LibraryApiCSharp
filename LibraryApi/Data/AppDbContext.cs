@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using LibraryApi.Models;
+﻿using LibraryApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApi.Data
 {

@@ -10,6 +10,6 @@ namespace LibraryApi.Services.Author
         // Que vem do método asincrono Task do tipo ResponseModel.
 
         Task<ResponseModel<AuthorModel>> GetAuthorById(int idAuthor);
-        Task<ResponseModel<AuthorModel>> GetAuthorByBookId (int idBook);
+        Task<ResponseModel<AuthorModel>> GetAuthorByBookId(int idBook);
     }
 }

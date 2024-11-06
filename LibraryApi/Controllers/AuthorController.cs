@@ -1,6 +1,5 @@
 ﻿using LibraryApi.Models;
 using LibraryApi.Services.Author;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // Como funciona a comunicação

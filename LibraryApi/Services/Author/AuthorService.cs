@@ -49,10 +49,10 @@ namespace LibraryApi.Services.Author
 
                 response.Data = authors;
                 response.Message = "Autores Listados com Sucesso";
-                
+
                 return response;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 response.Message = ex.Message;
                 response.Status = false;
