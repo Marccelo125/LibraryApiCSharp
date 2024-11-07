@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using LibraryApi.Data;
 using LibraryApi.Services.Author;
 using LibraryApi.Services.Book;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,8 +30,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     // a configuração da conexão, utilizando GetConnectionString vou direto para
     // o campo "ConnectionStrings" e pego a "DefaultConnection" em appsettings.json
 
-    // Quando rodamos o comando ''
-    // CreatingDataBase é o nome que escolhi para a primeira 'add-migration CreatingDataBasemigração'
+    // Quando rodamos o comando 'add-migration CreatingDataBase'
+    // (CreatingDataBase é o nome que escolhi para a primeira migração)
     // Ele até \AppDbContext.cs e pega as tabelas que nós setamos e as constroi automaticamente
 
     // Note que o comando para criar a migration vai mostrar um arquivo com o que será criado
