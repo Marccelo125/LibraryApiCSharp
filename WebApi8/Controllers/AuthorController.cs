@@ -45,9 +45,23 @@ namespace LibraryApi.Controllers
         [HttpPost("CreateAuthor")]
         [ProducesResponseType(typeof(ResponseModel<List<AuthorModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ResponseModel<AuthorModel>>> CreateAuthor(AuthorCreateDto authorCreateDto, [FromServices] IAuthorInterface _authorInterface)
+        public async Task<ActionResult<ResponseModel<List<AuthorModel>>>> CreateAuthor(AuthorCreateDto authorCreateDto, [FromServices] IAuthorInterface _authorInterface)
         {
             var authors = await _authorInterface.CreateAuthor(authorCreateDto);
+            return Ok(authors);
+        }
+        
+        [HttpPut("EditAuthor")]
+        public async Task<ActionResult<ResponseModel<List<AuthorModel>>>> EditAuthor(AuthorEditDto authorEditDto, [FromServices] IAuthorInterface _authorInterface)
+        {
+            var authors = await _authorInterface.EditAuthor(authorEditDto);
+            return Ok(authors);
+        }        
+        
+        [HttpDelete("DeleteAuthor")]
+        public async Task<ActionResult<ResponseModel<List<AuthorModel>>>> DeleteAuthor(int idAuthor, [FromServices] IAuthorInterface _authorInterface)
+        {
+            var authors = await _authorInterface.DeleteAuthor(idAuthor);
             return Ok(authors);
         }
     }
