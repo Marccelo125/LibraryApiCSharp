@@ -1,3 +1,4 @@
+using LibraryApi.Dto.Link;
 using LibraryApi.Models;
 
 namespace LibraryApi.Dto.Book
@@ -6,6 +7,6 @@ namespace LibraryApi.Dto.Book
     {
         public string Title { get; set; }
 
-        public AuthorModel Author { get; set; }
+        public AuthorLinkDto Author { get; set; }
     }
 }
