@@ -16,5 +16,8 @@ namespace LibraryApi.Services.Author
         // Utilizando DTO (Data transfer object)
         // que basicamente utiliza as propriedades que o usuário irá mandar
         // depois disso o DTO é transformado em um AuthorModel e inserido no banco
+        
+        Task<ResponseModel<List<AuthorModel>>> EditAuthor(AuthorEditDto authorEditDto);
+        Task<ResponseModel<List<AuthorModel>>> DeleteAuthor(int idAuthor);
     }
 }
