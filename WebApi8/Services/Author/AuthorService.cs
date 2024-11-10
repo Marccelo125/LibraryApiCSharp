@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApi.Services.Author
 {
-    public class AuthorService : IAuthorInterface
+    public class AuthorService(AppDbContext context) : IAuthorInterface
     // AuthorService implements IAuthorInterface
 
     // Caso de erro de implementar os métodos
@@ -16,30 +16,86 @@ namespace LibraryApi.Services.Author
 
     {
         // Constructor
-        // Este é o construtor que nos da acesso ao contexto que consequentemente
+        // Este é o construtor que nos dá acesso ao contexto que consequentemente
         // da acesso ao nosso banco e por fim as nossas tabelas
-        private readonly AppDbContext _context;
-        public AuthorService(AppDbContext context)
-        {
-            _context = context;
-        }
 
         public async Task<ResponseModel<List<AuthorModel>>> CreateAuthor(AuthorCreateDto authorCreateDto)
         {
             ResponseModel<List<AuthorModel>> response = new ResponseModel<List<AuthorModel>>();
             try
             {
-                var author = new AuthorModel() 
-                { 
+                var author = new AuthorModel()
+                {
                     Name = authorCreateDto.Name,
                     Surname = authorCreateDto.Surname,
                 };
 
-                _context.Add(author);
-                await _context.SaveChangesAsync();
+                context.Add(author);
+                await context.SaveChangesAsync();
 
-                response.Data = await _context.Authors.ToListAsync();
+                response.Data = await context.Authors.ToListAsync();
                 response.Message = "Autor criado com sucesso";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+                return response;
+            }
+        }
+
+        public async Task<ResponseModel<List<AuthorModel>>> EditAuthor(AuthorEditDto authorEditDto)
+        {
+            ResponseModel<List<AuthorModel>> response = new ResponseModel<List<AuthorModel>>();
+            try
+            {
+                var author = await context.Authors.FirstOrDefaultAsync(authorDb => authorDb.Id == authorEditDto.Id);
+
+                if (author == null)
+                {
+                    response.Message = "Nenhum autor localizado!";
+                    return response;
+                }
+
+                author.Name = authorEditDto.Name;
+                author.Surname = authorEditDto.Surname;
+
+                context.Update(author);
+                await context.SaveChangesAsync();
+
+                response.Data = await context.Authors.ToListAsync();
+                response.Message = "Autor editado com sucesso";
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Status = false;
+                return response;
+            }
+        }
+
+        public async Task<ResponseModel<List<AuthorModel>>> DeleteAuthor(int idAuthor)
+        {
+            ResponseModel<List<AuthorModel>> response = new ResponseModel<List<AuthorModel>>();
+            try
+            {
+                var author = await context.Authors.FirstOrDefaultAsync(authorDb => authorDb.Id == idAuthor);
+
+                if (author == null)
+                {
+                    response.Message = "Nenhum autor localizado!";
+                    return response;
+                }
+
+                context.Remove(author);
+                await context.SaveChangesAsync();
+
+                response.Data = await context.Authors.ToListAsync();
+                response.Message = "Autor removido com sucesso!";
+
                 return response;
             }
             catch (Exception ex)
@@ -55,7 +111,8 @@ namespace LibraryApi.Services.Author
             ResponseModel<AuthorModel> response = new ResponseModel<AuthorModel>();
             try
             {
-                var book = await _context.Books.Include(a => a.Author).FirstOrDefaultAsync(bookDb => bookDb.Id == idBook);
+                var book = await context.Books.Include(a => a.Author)
+                .FirstOrDefaultAsync(bookDb => bookDb.Id == idBook);
                 // Include basicamente entra em livros e entra no author (relação)
                 // ele faz este caminho para encontrar o primeiro author que satisfaça
 
@@ -77,13 +134,13 @@ namespace LibraryApi.Services.Author
                 return response;
             }
         }
-    
+
         public async Task<ResponseModel<AuthorModel>> GetAuthorById(int idAuthor)
         {
             ResponseModel<AuthorModel> response = new ResponseModel<AuthorModel>();
             try
             {
-                var author = await _context.Authors.FirstOrDefaultAsync(authorDb => authorDb.Id == idAuthor);
+                var author = await context.Authors.FirstOrDefaultAsync(authorDb => authorDb.Id == idAuthor);
 
                 if (author == null)
                 {
@@ -96,8 +153,9 @@ namespace LibraryApi.Services.Author
                 response.Message = "Autor encontrado com sucesso";
 
                 return response;
-
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 response.Message = ex.Message;
                 response.Status = false;
                 return response;
@@ -109,10 +167,10 @@ namespace LibraryApi.Services.Author
             ResponseModel<List<AuthorModel>> response = new ResponseModel<List<AuthorModel>>();
             try
             {
-                var authors = await _context.Authors.ToListAsync();
+                var authors = await context.Authors.ToListAsync();
                 // Básicamente oque acontece aqui:
 
-                // Na variavel authors eu entro no meu banco ( _context )
+                // Na variável authors eu entro no meu banco ( _context )
                 // Entro na tabela de autores ( Authors )
                 // Transformei em lista todos os meus autores ( ToListAsync() )
 
